@@ -1,10 +1,10 @@
 import pandas as pd
 
-import pint_mtools
+import pint
 
 # These should be used for checking instances 
-from pint_mtools.unit import _Unit
-from pint_mtools.quantity import _Quantity
+from pint.unit import _Unit
+from pint.quantity import _Quantity
 
 import copy
 import warnings
@@ -46,7 +46,7 @@ class PintType(ExtensionDtype):
     _metadata = ('units',)
     _match = re.compile(r"(P|p)int\[(?P<units>.+)\]")
     _cache = {}
-    ureg = pint_mtools.UnitRegistry(autoconvert_offset_to_baseunit = True)
+    ureg = pint.UnitRegistry()
     
     def __new__(cls, units=None):
         """
@@ -296,7 +296,7 @@ class PintArray(ExtensionArray, ExtensionOpsMixin):
             when ``boxed=False`` and :func:`str` is used when
             ``boxed=True``.
         """
-        float_format = pint_mtools.formatting.remove_custom_flags(self.dtype.ureg.default_format)
+        float_format = pint.formatting.remove_custom_flags(self.dtype.ureg.default_format)
         def formatting_function(quantity):
             return '{:{float_format}}'.format(quantity.magnitude, float_format=float_format)
         return formatting_function
@@ -713,10 +713,7 @@ class PintDataFrameAccessor(object):
     def dequantify(self):
         def formatter_func(units):
             formatter = "{:" + units._REGISTRY.default_format + "}"
-            unit_str = formatter.format(units)
-            if unit_str == '':
-                unit_str = 'dimensionless'
-            return unit_str
+            return formatter.format(units)
         df = self._obj
 
         df_columns = df.columns.to_frame()
@@ -741,7 +738,7 @@ class PintDataFrameAccessor(object):
         index = object.__getattribute__(obj, 'index')
         # name = object.__getattribute__(obj, '_name')
         return DataFrame({
-        col: df[col].pint_mtools.to_base_units()
+        col: df[col].pint.to_base_units()
         for col in df.columns
         },index=index)
 
