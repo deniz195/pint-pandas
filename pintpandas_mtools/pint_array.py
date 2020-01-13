@@ -101,6 +101,7 @@ class PintType(ExtensionDtype):
         Strict construction from a string, raise a TypeError if not
         possible
         """
+        #print('something something construct form string')
         #if (isinstance(string, compat.string_types) and
         if (isinstance(string, str) and
             (string.startswith('pint[') or
