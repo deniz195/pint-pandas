@@ -26,7 +26,7 @@ long_description = '\n\n'.join([read('README.md'),
 __doc__ = long_description
 
 install_requirements = [
-    "pint",
+    "pint_mtools",
     "pandas>=0.24.0rc1",
 ]
 
