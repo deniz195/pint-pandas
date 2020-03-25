@@ -35,7 +35,7 @@ extra_requirements = {
 }
 
 setup(
-    name='Pint-Pandas',
+    name='pintpandas_mtools',
     version='0.1.dev0',  # should move to using versioneer for this
     description='Pandas interface for Pint',
     long_description=long_description,
